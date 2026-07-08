@@ -23,6 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nargtec.com"),
   title: "Nargtec | Servicios Administrados de TI · MSP · Infraestructura · Ciberseguridad",
   description:
     "Nargtec administra, protege y optimiza la infraestructura tecnológica de empresas que no pueden permitirse tiempo de inactividad. MSP, Ciberseguridad, Azure, M365.",
@@ -40,6 +41,12 @@ export const metadata: Metadata = {
     description: "Administramos. Protegemos. Optimizamos. Tu socio tecnológico estratégico.",
     type: "website",
     locale: "es_DO",
+    siteName: "Nargtec",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nargtec | Servicios Administrados de TI",
+    description: "Administramos. Protegemos. Optimizamos. Tu socio tecnológico estratégico.",
   },
 };
 

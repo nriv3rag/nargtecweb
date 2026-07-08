@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Linkedin, Twitter, Github } from "lucide-react";
+import Link from "next/link";
+import { Linkedin, Instagram, Github } from "lucide-react";
 
 const nav = {
   Servicios: [
@@ -12,6 +13,10 @@ const nav = {
   ],
   Metodologías: ["NIA — Assessment", "NIM — Mantenimiento", "IMT — Madurez"],
   Empresa: ["Sobre Nargtec", "Contacto", "Blog de TI"],
+};
+
+const internalLinks: Record<string, string> = {
+  Contacto: "/contacto",
 };
 
 export default function Footer() {
@@ -45,13 +50,15 @@ export default function Footer() {
             {/* Social */}
             <div className="flex gap-2.5">
               {[
-                { icon: Linkedin, label: "LinkedIn" },
-                { icon: Twitter,  label: "Twitter"  },
-                { icon: Github,   label: "GitHub"   },
-              ].map(({ icon: Icon, label }) => (
+                { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/Nargtec" },
+                { icon: Linkedin,  label: "LinkedIn",  href: "#" },
+                { icon: Github,    label: "GitHub",    href: "#" },
+              ].map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target={href !== "#" ? "_blank" : undefined}
+                  rel={href !== "#" ? "noopener noreferrer" : undefined}
                   aria-label={label}
                   className="w-9 h-9 rounded-lg border border-subtle bg-card flex items-center justify-center text-dim hover:text-teal hover:border-teal/25 transition-all duration-200"
                 >
@@ -68,12 +75,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {items.map((item) => (
                   <li key={item}>
-                    <a
-                      href="#"
+                    <Link
+                      href={internalLinks[item] ?? "#"}
                       className="text-secondary hover:text-primary text-sm font-body transition-colors duration-200"
                     >
                       {item}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -87,15 +94,18 @@ export default function Footer() {
             © {new Date().getFullYear()} Nargtec · Todos los derechos reservados
           </p>
           <div className="flex gap-6">
-            {["Política de privacidad", "Términos de servicio"].map((l) => (
-              <a
-                key={l}
-                href="#"
-                className="font-body text-xs text-dim hover:text-secondary transition-colors duration-200"
-              >
-                {l}
-              </a>
-            ))}
+            <Link
+              href="/politica-privacidad"
+              className="font-body text-xs text-dim hover:text-secondary transition-colors duration-200"
+            >
+              Política de privacidad
+            </Link>
+            <a
+              href="#"
+              className="font-body text-xs text-dim hover:text-secondary transition-colors duration-200"
+            >
+              Términos de servicio
+            </a>
           </div>
         </div>
 
