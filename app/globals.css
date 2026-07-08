@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens — Paleta extraída del logo Nargtec ────────
+   Logo N: degradado azul marino #1A2B8C → azul cielo #1AB8EC
+   Texto "argtec": azul cobalto ~#235DB5
+   ──────────────────────────────────────────────────────────── */
+:root {
+  --bg-void:     #020912;
+  --bg-base:     #060D1C;
+  --bg-surface:  #091422;
+  --bg-card:     #0D1B2E;
+  --bg-card-hov: #112236;
+
+  --border:        rgba(255, 255, 255, 0.065);
+  --border-accent: rgba(26, 184, 236, 0.25);
+  --border-deep:   rgba(26, 55, 140, 0.35);
+
+  /* Azul cielo — highlight de la N */
+  --blue:       #1AB8EC;
+  --blue-dim:   rgba(26, 184, 236, 0.12);
+  --blue-glow:  rgba(26, 184, 236, 0.22);
+
+  /* Azul marino — base de la N */
+  --navy:       #1A3B8C;
+  --navy-dim:   rgba(26, 59, 140, 0.15);
+  --navy-glow:  rgba(26, 59, 140, 0.28);
+
+  /* Azul cobalto — texto "argtec" */
+  --cobalt:     #235DB5;
+  --cobalt-dim: rgba(35, 93, 181, 0.12);
+
+  --text-primary:   #DCE8F8;
+  --text-secondary: #7A91B0;
+  --text-dim:       #3D5272;
+}
+
+/* ─── Base ─────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-feature-settings: "kern" 1, "liga" 1;
+  letter-spacing: -0.02em;
+}
+
+.font-mono, code, pre {
+  font-family: var(--font-mono), 'Courier New', monospace;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-void); }
+::-webkit-scrollbar-thumb { background: var(--blue-dim); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--blue-glow); }
+
+/* ─── Selection ─────────────────────────────────────────────── */
+::selection {
+  background: rgba(26, 184, 236, 0.22);
+  color: var(--text-primary);
+}
+
+/* ─── Utility Classes ───────────────────────────────────────── */
+@layer utilities {
+  .text-blue-brand { color: var(--blue); }
+  .text-navy-brand { color: var(--navy); }
+  .text-primary    { color: var(--text-primary); }
+  .text-secondary  { color: var(--text-secondary); }
+  .text-dim        { color: var(--text-dim); }
+
+  .bg-void    { background-color: var(--bg-void); }
+  .bg-base    { background-color: var(--bg-base); }
+  .bg-surface { background-color: var(--bg-surface); }
+  .bg-card    { background-color: var(--bg-card); }
+
+  .border-subtle { border-color: var(--border); }
+  .border-blue   { border-color: var(--border-accent); }
+  .border-navy   { border-color: var(--border-deep); }
+
+  .heading { font-family: var(--font-heading), system-ui, sans-serif; }
+  .mono     { font-family: var(--font-mono), monospace; }
+
+  /* Gradiente del logo: marino → cielo (igual que la N) */
+  .gradient-brand {
+    background: linear-gradient(135deg, #1AB8EC 0%, #5ED0F5 60%, #93DFF7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* Alias usado en los componentes actuales */
+  .gradient-teal  { @apply gradient-brand; }
+  .gradient-ember {
+    background: linear-gradient(135deg, #1A3B8C 0%, #2B5DBF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow */
+  .glow-blue { box-shadow: 0 0 40px var(--blue-glow); }
+  .glow-navy { box-shadow: 0 0 40px var(--navy-glow); }
+
+  /* Section label */
+  .section-label {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] font-medium tracking-[0.2em] uppercase;
+    color: var(--blue);
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--blue);
+  }
+
+  /* Card */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .card:hover {
+    border-color: rgba(26, 184, 236, 0.18);
+    background: var(--bg-card-hov);
+  }
+}
+
+/* ─── Animations ─────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+@keyframes float-card {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-8px) rotate(-1deg); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes draw {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.animate-marquee    { animation: marquee 30s linear infinite; }
+.animate-pulse-dot  { animation: pulse-dot 2s ease-in-out infinite; }
+.animate-float-card { animation: float-card 6s ease-in-out infinite; }
+.animate-blink      { animation: blink 1.1s step-end infinite; }
