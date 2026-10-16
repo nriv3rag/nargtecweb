@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
 import { AnimateIn } from "./AnimateIn";
 
 const included = [
@@ -14,41 +12,6 @@ const included = [
 ];
 
 export default function Contact() {
-  const [sent,    setSent]    = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState("");
-  const [form,    setForm]    = useState({
-    name: "", email: "", company: "", phone: "",
-    message: "", interest: "NIA",
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("request failed");
-      setSent(true);
-    } catch {
-      setError("No se pudo enviar tu solicitud. Intenta de nuevo o escríbenos a info@nargtec.com.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const inputClass =
-    "w-full px-4 py-3 rounded-xl bg-surface border border-subtle text-primary placeholder-dim text-sm font-body focus:outline-none focus:border-teal/40 focus:bg-card transition-all duration-200";
-  const labelClass = "block font-mono text-[10px] text-dim tracking-widest uppercase mb-1.5";
-
   return (
     <section id="contacto" className="relative py-20 bg-void">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal/20 to-transparent" />
@@ -105,128 +68,14 @@ export default function Contact() {
             </div>
           </AnimateIn>
 
-          {/* ── Form ── */}
+          {/* Direct contact */}
           <AnimateIn delay={0.1}>
-            <AnimatePresence mode="wait">
-              {sent ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="h-full min-h-[440px] flex flex-col items-center justify-center text-center p-12 rounded-2xl border border-teal/25 bg-teal/[0.04]"
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-                    className="w-16 h-16 rounded-full bg-teal/15 border border-teal/25 flex items-center justify-center mb-6"
-                  >
-                    <CheckCircle2 size={28} className="text-teal" />
-                  </motion.div>
-                  <h3 className="font-heading font-bold text-primary text-xl mb-2">Solicitud recibida</h3>
-                  <p className="text-secondary text-sm font-body max-w-xs leading-relaxed">
-                    Nos pondremos en contacto en menos de 24 horas para coordinar tu NIA.
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="form"
-                  onSubmit={handleSubmit}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="p-7 rounded-2xl border border-subtle bg-card space-y-5"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className={labelClass}>Nombre *</label>
-                      <input
-                        name="name" required value={form.name}
-                        onChange={handleChange}
-                        placeholder="Tu nombre completo"
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Email corporativo *</label>
-                      <input
-                        name="email" type="email" required value={form.email}
-                        onChange={handleChange}
-                        placeholder="tu@empresa.com"
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className={labelClass}>Empresa *</label>
-                      <input
-                        name="company" required value={form.company}
-                        onChange={handleChange}
-                        placeholder="Nombre de tu empresa"
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Teléfono</label>
-                      <input
-                        name="phone" value={form.phone}
-                        onChange={handleChange}
-                        placeholder="+1 (809) 000-0000"
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className={labelClass}>Me interesa</label>
-                    <select
-                      name="interest" value={form.interest} onChange={handleChange}
-                      className={inputClass + " appearance-none cursor-pointer"}
-                    >
-                      <option value="NIA"           className="bg-card">NIA — Evaluación gratuita de infraestructura</option>
-                      <option value="MSP"           className="bg-card">Servicios Administrados (MSP)</option>
-                      <option value="Ciberseguridad" className="bg-card">Ciberseguridad</option>
-                      <option value="Azure"         className="bg-card">Microsoft Azure / M365</option>
-                      <option value="General"       className="bg-card">Consulta general</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className={labelClass}>Cuéntanos sobre tu empresa</label>
-                    <textarea
-                      name="message" value={form.message} onChange={handleChange}
-                      rows={3}
-                      placeholder="¿Cuántos usuarios? ¿Qué desafíos tecnológicos enfrentan actualmente?"
-                      className={inputClass + " resize-none"}
-                    />
-                  </div>
-
-                  <motion.button
-                    type="submit"
-                    disabled={loading}
-                    whileHover={!loading ? { scale: 1.01 } : {}}
-                    whileTap={!loading  ? { scale: 0.99 } : {}}
-                    className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-teal disabled:opacity-50 text-void font-heading font-bold rounded-xl text-sm transition-all duration-200 shadow-teal-sm hover:shadow-teal-md"
-                  >
-                    {loading ? (
-                      <span className="w-4 h-4 border-2 border-void/20 border-t-void rounded-full animate-spin" />
-                    ) : (
-                      <Send size={14} />
-                    )}
-                    {loading ? "Enviando..." : "Solicitar NIA gratuito"}
-                  </motion.button>
-
-                  {error && (
-                    <p className="text-red-400 text-xs text-center font-body">{error}</p>
-                  )}
-
-                  <p className="font-mono text-[10px] text-dim text-center tracking-wider">
-                    Sin compromisos · Tu información es confidencial
-                  </p>
-                </motion.form>
-              )}
-            </AnimatePresence>
+            <div className="h-full min-h-[260px] flex flex-col justify-center p-8 md:p-12 rounded-2xl border border-teal/25 bg-teal/[0.04]">
+              <Phone size={28} className="text-teal mb-6" />
+              <h3 className="font-heading text-2xl text-primary mb-4">Conversemos sobre tu proyecto</h3>
+              <p className="text-secondary font-body leading-relaxed mb-8">Llámanos para conocer nuestros servicios y coordinar tu evaluación.</p>
+              <a href="tel:+18292611010" className="inline-flex items-center justify-center gap-3 rounded-xl bg-teal text-void font-semibold px-6 py-4">Llamar al +1 (829) 261-1010</a>
+            </div>
           </AnimateIn>
 
         </div>

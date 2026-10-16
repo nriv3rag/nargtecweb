@@ -15,7 +15,5 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            export NVM_DIR="/root/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            export PATH="/root/.nvm/versions/node/v20.20.2/bin:$PATH"
-            bash /var/www/nargtecweb/deploy.sh
+            export PATH="/opt/node-v24.22.0-linux-x64/bin:$PATH"
+            bash /usr/local/sbin/deploy-nargtec
