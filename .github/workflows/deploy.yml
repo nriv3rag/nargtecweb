@@ -6,14 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, vps1588911]
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            export PATH="/opt/node-v24.22.0-linux-x64/bin:$PATH"
-            bash /usr/local/sbin/deploy-nargtec
+      - name: Deploy
+        run: sudo /usr/local/sbin/deploy-nargtec
