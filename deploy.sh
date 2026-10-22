@@ -15,7 +15,7 @@ flock -n 9 || { echo "Another deployment is running." >&2; exit 1; }
 RELEASE_ROOT="/var/www/nargtec-releases"
 install -d -m 755 "$RELEASE_ROOT"
 RELEASE=$(mktemp -d "$RELEASE_ROOT/release-XXXXXXXX")
-git clone --depth 1 --branch main git@github.com:nriv3rag/nargtecweb.git "$RELEASE"
+git clone --depth 1 --branch main github-nargtec:nriv3rag/nargtecweb.git "$RELEASE"
 # The deployed website must not regain the mail handler or its credentials.
 python3 - "$RELEASE" <<'PY'
 import json,pathlib,sys
