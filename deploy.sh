@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-export PATH="/opt/node-v24.22.0-linux-x64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-NODE="/opt/node-v24.22.0-linux-x64/bin/node"
+export PATH="/opt/node-v24.22.1-linux-x64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+NODE="/opt/node-v24.22.1-linux-x64/bin/node"
 if [[ "${1:-}" == "--check" ]]; then
   test -x "$NODE"
   systemctl is-active --quiet nargtec-web
